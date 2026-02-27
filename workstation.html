@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        /* Root Variables */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #f8fafc;
+            --accent-color: #0ea5e9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #1e40af;
+            --secondary-color: #0f172a;
+            --accent-color: #38bdf8;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --shadow-color: rgba(0, 0, 0, 0.25);
+            --card-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        /* Neumorphic Styles */
+        .neumorphic {
+            border-radius: 20px;
+            background: var(--card-bg);
+            box-shadow: 8px 8px 16px var(--shadow-color),
+                       -8px -8px 16px rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .neumorphic:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Header Styles */
+        header {
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--secondary-color), var(--card-bg));
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        /* Search Section */
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            box-shadow: inset 4px 4px 8px var(--shadow-color),
+                       inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background: var(--accent-color);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* Job Board Section */
+        .job-board {
+            padding: 4rem 2rem;
+            background: var(--card-bg);
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .job-card {
+            padding: 2rem;
+            cursor: pointer;
+        }
+
+        .job-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .job-card p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Visa Information Section */
+        .visa-info {
+            padding: 4rem 2rem;
+            background: linear-gradient(45deg, var(--secondary-color), var(--card-bg));
+        }
+
+        .visa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .visa-card {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Research Resources */
+        .resources {
+            padding: 4rem 2rem;
+            background: var(--card-bg);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .resource-card {
+            padding: 2rem;
+            text-align: left;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem;
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            z-index: 1000;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        /* Background Animation */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation" id="particles"></div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class='bx bx-moon'></i>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="nav-container">
+            <div class="logo">Nexus</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#jobs">Jobs</a>
+                <a href="#internships">Internships</a>
+                <a href="#visa">Visa Info</a>
+                <a href="#research">Research</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>  
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1 data-aos="fade-up">Your Gateway to Global Opportunities</h1>
+        <p data-aos="fade-up" data-aos-delay="200">Find internships, research opportunities, visa information, and job prospects all in one place.</p>
+        
+        <div class="search-container" data-aos="fade-up" data-aos-delay="400">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search for opportunities...">
+                <button class="search-btn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-grid">
+        <div class="feature-card neumorphic" data-aos="fade-up">
+            <i class='bx bx-briefcase'></i>
+            <h3>Job Opportunities</h3>
+            <p>Explore thousands of job listings from top companies worldwide.</p>
+        </div>
+        <div class="feature-card neumorphic" data-aos="fade-up" data-aos-delay="200">
+            <i class='bx bx-book-reader'></i>
+            <h3>Research Resources</h3>
+            <p>Access comprehensive research materials and academic resources.</p>
+        </div>
+        <div class="feature-card neumorphic" data-aos="fade-up" data-aos-delay="400">
+            <i class='bx bx-id-card'></i>
+            <h3>Visa Information</h3>
+            <p>Get detailed visa guidance for different countries.</p>
+        </div>
+    </section>
+
+    <!-- Job Board Section -->
+    <section class="job-board" id="jobs">
+        <div class="job-grid">
+            <div class="job-card neumorphic" data-aos="fade-up">
+                <h4>Software Developer Intern</h4>
+                <p>Google</p>
+                <p>Mountain View, CA</p>
+            </div>
+            <div class="job-card neumorphic" data-aos="fade-up" data-aos-delay="200">
+                <h4>Research Assistant</h4>
+                <p>Stanford University</p>
+                <p>Stanford, CA</p>
+            </div>
+            <div class="job-card neumorphic" data-aos="fade-up" data-aos-delay="400">
+                <h4>Data Scientist</h4>
+                <p>Microsoft</p>
+                <p>Seattle, WA</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visa Information Section -->
+    <section class="visa-info" id="visa">
+        <div class="visa-grid">
+            <div class="visa-card neumorphic" data-aos="fade-up">
+                <h3>Student Visa</h3>
+                <p>Complete guide for international student visas.</p>
+            </div>
+            <div class="visa-card neumorphic" data-aos="fade-up" data-aos-delay="200">
+                <h3>Work Visa</h3>
+                <p>Information about work permits and employment visas.</p>
+            </div>
+            <div class="visa-card neumorphic" data-aos="fade-up" data-aos-delay="400">
+                <h3>Research Visa</h3>
+                <p>Special visas for research and academic purposes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Resources Section -->
+    <section class="resources" id="research">
+        <div class="resources-grid">
+            <div class="resource-card neumorphic" data-aos="fade-up">
+                <h3>Academic Journals</h3>
+                <p>Access to leading research publications.</p>
+            </div>
+            <div class="resource-card neumorphic" data-aos="fade-up" data-aos-delay="200">
+                <h3>Online Libraries</h3>
+                <p>Digital archives and research materials.</p>
+            </div>
+            <div class="resource-card neumorphic" data-aos="fade-up" data-aos-delay="400">
+                <h3>Research Tools</h3>
+                <p>Professional tools for academic research.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Nexus</h3>
+                <p>Your gateway to global opportunities</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <p>About Us</p>
+                <p>Contact</p>
+                <p>Privacy Policy</p>
+            </div>
+            <div>
+                <h4>Connect</h4>
+                <p>Email: nexus@mail.com</p>
+                <p>Phone: +15085643340</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+            themeToggle.innerHTML = body.dataset.theme === 'dark' ? 
+                '<i class="bx bx-sun"></i>' : '<i class="bx bx-moon"></i>';
+        });
+
+        // Background Animation
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                container.appendChild(particle);
+                
+                animateParticle(particle);
+            }
+        }
+
+        function animateParticle(particle) {
+            const animation = particle.animate([
+                { transform: 'translate(0, 0)' },
+                { transform: `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px)` }
+            ], {
+                duration: Math.random() * 3000 + 2000,
+                direction: 'alternate',
+                iterations: Infinity,
+                easing: 'ease-in-out'
+            });
+        }
+
+        createParticles();
+    </script>
+</body>
+</html>
